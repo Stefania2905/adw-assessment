@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}Images{% endblock %}
+
+{% block content %}
+<h2>Images from our accommodation</h2>
+
+{% for image_filename in accommodation_images %}
+    {% if image_filename not in deleted_images %}
+    <div class="image-container">
+        <img src="{{ url_for('static', filename=image_filename) }}" alt="Accommodation Image" style="width: 450px; max-height: 500px;"><br>
+        <a href="{{ url_for('download_image', filename=image_filename) }}" class="download-link">Download</a>
+        {% if session['username'] == 'admin' %}
+        <form action="{{ url_for('delete_image', filename=image_filename) }}" method="POST" class="delete-form">
+            <button type="submit" class="delete-button">Delete</button>
+        </form>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}
